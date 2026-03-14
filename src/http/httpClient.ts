@@ -70,3 +70,5 @@ export class HttpClient {
     return response.data;
   }
 }
+
+export const httpClient = new HttpClient();
