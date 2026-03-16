@@ -1,0 +1,18 @@
+{
+  "RateResponse": {
+    "RatedShipment": [
+      {
+        "Service": {
+          "Code": "03"
+        },
+        "TotalCharges": {
+          "CurrencyCode": "USD",
+          "MonetaryValue": "12.45"
+        },
+        "GuaranteedDelivery": {
+          "BusinessDaysInTransit": "3"
+        }
+      }
+    ]
+  }
+}
