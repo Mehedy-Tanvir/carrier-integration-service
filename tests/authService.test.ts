@@ -1,6 +1,12 @@
 import axios from "axios";
 import { upsAuthService } from "../src/auth/upsAuthService";
 
+beforeEach(() => {
+  (upsAuthService as any).token = null;
+  (upsAuthService as any).expiry = 0;
+  jest.clearAllMocks();
+});
+
 jest.mock("axios");
 
 const mockedAxios = axios as jest.Mocked<typeof axios>;
