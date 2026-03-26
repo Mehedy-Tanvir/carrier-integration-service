@@ -17,16 +17,36 @@ export class RateService {
    * @returns Array of normalized RateQuote
    */
   public async getRates(request: RateRequest): Promise<RateQuote[]> {
-    // Validate request
-    const validationErrors = validateRateRequest(request);
-    if (validationErrors && Object.keys(validationErrors).length > 0) {
-      throw new ValidationError("Invalid rate request", validationErrors);
+    console.log(
+      "🚀 [RateService] Incoming request:",
+      JSON.stringify(request, null, 2),
+    );
+
+    try {
+      console.log("🔍 [RateService] Running validation...");
+
+      const validatedData = validateRateRequest(request);
+
+      console.log("✅ [RateService] Validation passed:", validatedData);
+
+      // Call carrier
+      console.log("📡 [RateService] Calling carrier.getRates...");
+      const quotes = await this.carrier.getRates(validatedData);
+
+      console.log("📦 [RateService] Carrier returned quotes:", quotes);
+
+      return quotes;
+    } catch (error: any) {
+      console.error("🔥 [RateService] Validation or processing error:", error);
+
+      // Zod error handling
+      if (error?.issues) {
+        console.error("❌ [RateService] Zod validation issues:", error.issues);
+
+        throw new ValidationError("Invalid rate request", error.issues);
+      }
+
+      throw error;
     }
-
-    // Call carrier
-    const quotes = await this.carrier.getRates(request);
-
-    // Return normalized quotes
-    return quotes;
   }
 }
